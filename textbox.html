@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <title>Twitter Sentiment Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 250px;
+            background-color: #1f2029;
+
+            display: block;
+            align-items: center;
+            justify-content: center;
+            font-size:40px;
+        }
+
+        h1 {
+             color: #c4c3ca;
+        }
+
+        #tweetInput {
+            width: 50%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+
+        #predictButton {
+            display: block;
+            /* position:relative  ; */
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: auto;
+            margin-top: 25px;
+            border: none;
+            cursor: pointer;
+            width: 20%;
+        }
+
+        #predictButton:hover {
+            opacity: 0.8;
+        }
+
+        #result {
+            color: white;
+            padding: 10px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sentiment Analysis</h1>
+    <p style="color: aliceblue;">Enter your comment and predict the sentiment</p>
+    <form action="/analyse" method="post">
+        <input type="text" id="tweetInput" name="tweetInput" placeholder="Enter your comment">
+        <button id="predictButton" type="submit">Predict</button>
+    </form>
+
+    <div id="result">
+        {% block content %}
+            {% if data %}
+               {{data.result}}
+            {% endif %}
+        {% endblock content %}
+    </div>
+
+
+
+    <!-- <script>
+        // Your trained machine learning model for sentiment analysis
+        const model = tf.loadLayersModel('https://path-to-your-model.json');
+
+        document.getElementById('predictButton').addEventListener('click', async () => {
+            const tweetInput = document.getElementById('tweetInput');
+            const result = document.getElementById('result');
+
+            if (tweetInput.value.trim() === '') {
+                result.textContent = 'Please enter a tweet';
+                result.style.backgroundColor = 'red';
+            } else {
+                // Preprocess the input tweet
+                const input = preprocess(tweetInput.value);
+
+                // Make a prediction using the model
+                const prediction = await model.predict(input).data();
+
+                // Determine the sentiment based on the prediction
+                let sentiment = 'Neutral';
+                if (prediction[0] > 0.5) {
+                    sentiment = 'Positive';
+                } else if (prediction[0] < 0.5) {
+                    sentiment = 'Negative';
+                }
+
+                // Display the result
+                result.textContent = `Sentiment: ${sentiment}`;
+                result.style.backgroundColor = sentiment === 'Positive' ? 'green' : 'red';
+            }
+        });
+
+        // Function to preprocess the input tweet
+        function preprocess(text) {
+            // Implement your own preprocessing logic here
+            const tokens = text.split(' ');
+            const encoded = tf.util.encodeString(tokens.join('|'), 'utf-8');
+            return tf.tensor(encoded).expandDims(0);
+        }
+    </script> -->
+
+
+</body>
+</html>
